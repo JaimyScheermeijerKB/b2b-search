@@ -53,12 +53,15 @@ export default async function DashboardPage({
     uniqueSessions: 0,
     uniqueVisitors: 0,
     topPaths: [] as { path: string; count: number }[],
+    topCompanies: [] as { name: string; count: number }[],
   };
   let recentEvents: {
     path: string;
     createdAt: Date;
     siteName: string;
     visitorId: string;
+    companyName: string | null;
+    companyDomain: string | null;
   }[] = [];
 
   if (user) {
@@ -149,12 +152,36 @@ export default async function DashboardPage({
             count: Number(r.cnt),
           }));
 
+          // Top bedrijven (waar company_name bekend is)
+          const companyRows = await db
+            .select({
+              name: trackingEvents.companyName,
+              cnt: count(),
+            })
+            .from(trackingEvents)
+            .where(and(whereClause, sql`${trackingEvents.companyName} IS NOT NULL`))
+            .groupBy(trackingEvents.companyName)
+            .orderBy(desc(count()))
+            .limit(5);
+
+          stats.topCompanies = companyRows.map((r) => ({
+            name: r.name ?? '—',
+            count: Number(r.cnt),
+          }));
+
           // Recente events (laatste 10)
           const recentRows = await db.query.trackingEvents.findMany({
             where: whereClause,
             orderBy: desc(trackingEvents.createdAt),
             limit: 10,
-            columns: { path: true, createdAt: true, siteId: true, visitorId: true },
+            columns: {
+              path: true,
+              createdAt: true,
+              siteId: true,
+              visitorId: true,
+              companyName: true,
+              companyDomain: true,
+            },
           });
 
           recentEvents = recentRows.map((e) => ({
@@ -162,6 +189,8 @@ export default async function DashboardPage({
             createdAt: e.createdAt,
             siteName: siteNames[e.siteId] || 'Onbekend',
             visitorId: e.visitorId,
+            companyName: e.companyName ?? null,
+            companyDomain: e.companyDomain ?? null,
           }));
         }
       }
@@ -281,15 +310,22 @@ export default async function DashboardPage({
               {recentEvents.map((e, i) => (
                 <div
                   key={i}
-                  className="flex justify-between text-sm py-2 border-b last:border-0"
+                  className="flex justify-between items-start gap-4 text-sm py-2 border-b last:border-0"
                 >
-                  <span>
-                    <code className="bg-muted px-1 rounded">{e.path}</code>
-                    <span className="text-muted-foreground ml-2">
-                      {e.siteName}
+                  <div className="min-w-0">
+                    {(e.companyName || e.companyDomain) && (
+                      <div className="font-medium truncate">
+                        {e.companyName ?? e.companyDomain ?? '—'}
+                      </div>
+                    )}
+                    <span>
+                      <code className="bg-muted px-1 rounded">{e.path}</code>
+                      <span className="text-muted-foreground ml-2">
+                        {e.siteName}
+                      </span>
                     </span>
-                  </span>
-                  <span className="text-muted-foreground text-xs">
+                  </div>
+                  <span className="text-muted-foreground text-xs shrink-0">
                     {new Date(e.createdAt).toLocaleString('nl-NL')}
                   </span>
                 </div>

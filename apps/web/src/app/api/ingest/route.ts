@@ -60,6 +60,29 @@ export async function POST(request: NextRequest) {
     null;
   const userAgent = request.headers.get('user-agent') || null;
 
+  // IP → bedrijf lookup (IPinfo Lite, gratis)
+  let companyName: string | null = null;
+  let companyDomain: string | null = null;
+  const token = process.env.IPINFO_TOKEN;
+  if (ip && token) {
+    try {
+      const res = await fetch(
+        `https://api.ipinfo.io/lite/${encodeURIComponent(ip)}?token=${token}`,
+        { next: { revalidate: 0 } }
+      );
+      if (res.ok) {
+        const data = (await res.json()) as {
+          as_name?: string;
+          as_domain?: string;
+        };
+        companyName = data.as_name ?? null;
+        companyDomain = data.as_domain ?? null;
+      }
+    } catch {
+      // Negeer fouten – insert gaat door zonder bedrijfsinfo
+    }
+  }
+
   await db.insert(trackingEvents).values({
     siteId: site.id,
     path: parsed.data.path,
@@ -74,6 +97,8 @@ export async function POST(request: NextRequest) {
     sessionId: parsed.data.session_id,
     ip,
     userAgent,
+    companyName,
+    companyDomain,
   });
 
   return NextResponse.json({ ok: true }, {

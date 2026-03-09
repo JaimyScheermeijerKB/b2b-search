@@ -31,6 +31,7 @@ In **Settings** → **Environment Variables** voeg je toe:
 | `SUPABASE_SERVICE_ROLE_KEY` | `sb_secret_...` | Uit Supabase Dashboard |
 | `DATABASE_URL` | `postgresql://postgres...@aws-1-ap-southeast-2.pooler...` | Pooler connection string |
 | `NEXT_PUBLIC_APP_URL` | `https://jouw-app.vercel.app` | **Belangrijk:** je Vercel-URL na deploy |
+| `IPINFO_TOKEN` | `xxx` | Gratis op [ipinfo.io](https://ipinfo.io/signup) – voor bedrijfsnaam bij bezoekers |
 
 `NEXT_PUBLIC_APP_URL` moet je na de eerste deploy invullen met je echte Vercel-URL (bijv. `https://b2b-visitor-xxx.vercel.app`).
 

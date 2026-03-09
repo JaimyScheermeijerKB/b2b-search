@@ -18,6 +18,8 @@ export const trackingEvents = pgTable('tracking_events', {
   sessionId: text('session_id').notNull(),
   ip: text('ip'),
   userAgent: text('user_agent'),
+  companyName: text('company_name'), // bijv. "Google LLC" via IPinfo
+  companyDomain: text('company_domain'), // bijv. "google.com"
   createdAt: timestamp('created_at', { withTimezone: true })
     .defaultNow()
     .notNull(),
