@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import { BarChart3, LayoutDashboard, LogOut, Settings } from 'lucide-react';
+import { appVersion } from '@/lib/version';
 
 // Next.js 16: voorkomt hang met prefetch + loading.tsx
 export const dynamic = 'force-dynamic';
@@ -67,6 +68,9 @@ export default async function DashboardLayout({
         <div className="p-4 border-t">
           <div className="text-sm text-muted-foreground truncate mb-2">
             {user?.email}
+          </div>
+          <div className="text-xs text-muted-foreground/70 mb-2">
+            v{appVersion}
           </div>
           <form action={signOut}>
             <Button variant="ghost" size="sm" className="w-full justify-start gap-2">

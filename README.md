@@ -73,21 +73,19 @@ pnpm dev
 
 ## Fases
 
-- **Fase 0**: Repo setup ✓
-- **Fase 1**: Next.js, Tailwind, shadcn/ui ✓
-- **Fase 2**: Supabase + Auth ✓
-- **Fase 3**: Drizzle + schema's ✓
-- **Fase 4**: Multi-tenant datamodel ✓
-- **Fase 5**: Tracking ingest ✓
-- **Fase 2**: Supabase + Auth
-- **Fase 3**: Drizzle + schema's
-- **Fase 4**: Multi-tenant datamodel
-- **Fase 5**: Tracking ingest
-- **Fase 6**: Sessies + dashboard
-- **Fase 7**: Trigger.dev jobs
-- **Fase 8**: Admin panel
-- **Fase 9**: Webhooks & alerts
-- **Fase 10**: Hardening & deploy
+| Fase | Beschrijving | Status |
+|------|--------------|--------|
+| 0 | Repo setup (pnpm, TypeScript, ESLint) | ✓ |
+| 1 | Next.js, Tailwind, shadcn/ui | ✓ |
+| 2 | Supabase + Auth | ✓ |
+| 3 | Drizzle + schema's | ✓ |
+| 4 | Multi-tenant datamodel (workspaces, sites) | ✓ |
+| 5 | Tracking ingest (snippet, API, events) | ✓ |
+| 6 | Sessies + dashboard (stats, top pagina's, bedrijfsidentificatie via IPinfo) | ✓ |
+| 7 | Trigger.dev jobs (enrichment, confidence scoring) | 🔲 |
+| 8 | Admin panel (workspaces, sites, job inspectie) | 🔲 |
+| 9 | Webhooks & alerts (CRM-hooks) | 🔲 |
+| 10 | Hardening & deploy (logging, error states, docs) | 🔲 |
 
 ## Licentie
 

@@ -76,10 +76,10 @@ b2b/
 - Protected routes
 - Workspace-concept (basis)
 
-### Fase 3 – Drizzle setup
+### Fase 3 – Drizzle setup ✓
 
 - Drizzle in packages/db
-- Schema’s
+- Schema's (users, workspaces, memberships, sites, tracking_events)
 - Migraties
 - DB client export
 
@@ -90,29 +90,32 @@ b2b/
 
 ### Fase 5 – Tracking ingest ✓
 
-- Ingest API endpoint
-- Event opslag
+- Ingest API endpoint (`/api/ingest`)
+- Event opslag (tracking_events)
 - packages/tracking snippet
-- Test endpoint
+- CORS voor cross-origin tracking
 
-### Fase 6 – Sessies + dashboard
+### Fase 6 – Sessies + dashboard ✓
 
-- Sessie-logica
-- Dashboard schermen
-- Bezoeken, pageviews, top pagina’s
+- Sessie-logica (visitor_id, session_id)
+- Dashboard schermen (stats, top pagina's, recente bezoeken)
+- Bedrijfsidentificatie via IPinfo (company_name, company_domain)
+- Top bedrijven-card
+- Versieweergave in sidebar (v0.6.0)
 
 ### Fase 7 – Trigger.dev
 
-- Worker setup
-- Enrichment jobs
-- Confidence scoring
-- Retry-logica
+- Worker setup in apps/worker
+- Enrichment jobs (extra IP/company lookup)
+- Confidence scoring voor lead-kwaliteit
+- Retry-logica voor failed jobs
 
 ### Fase 8 – Admin panel
 
-- Interne admin sectie
-- Workspaces, sites, ingest status
-- Job inspectie
+- Interne admin sectie (aparte route of subdomain)
+- Overzicht workspaces, sites, ingest status
+- Job inspectie (Trigger.dev dashboard of eigen UI)
+- Gebruikersbeheer
 
 ### Fase 9 – Webhooks & alerts
 
@@ -122,7 +125,7 @@ b2b/
 
 ### Fase 10 – Hardening
 
-- Logging
-- Error states
-- Docs
-- Deployment instructies
+- Logging (structuur, niveaus)
+- Error states (graceful degradation)
+- Docs (API, deploy)
+- Deployment instructies (zie DEPLOY.md)
